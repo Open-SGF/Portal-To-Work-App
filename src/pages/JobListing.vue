@@ -4,7 +4,7 @@
             <div class="listing-page-container">
                 <ais-instant-search
                     :search-client="searchClient"
-                    :index-name="sortByDate ? 'Jobs_date' : 'jobs'"
+                    :index-name="sortByDate ? 'jobs_date' : 'jobs'"
                     class="full-width"
                 >
                     <ais-configure v-bind="searchParameters" />

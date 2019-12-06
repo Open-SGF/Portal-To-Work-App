@@ -1,7 +1,16 @@
 const routes = [
     {
-        path: '/',
-        component: () => import('pages/AddressForm.vue'),
+        path: '',
+        component: () => import('layouts/SimpleLayout.vue'),
+        children: [
+            {
+                path: '/',
+                component: () => import('pages/AddressForm.vue'),
+                meta: {
+                    title: "Settings"
+                }
+            }
+        ]
     },
     {
         path: '/app',

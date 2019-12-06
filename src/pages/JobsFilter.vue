@@ -1,65 +1,61 @@
 <template>
-    <q-layout>
-        <q-page-container>
-            <q-page padding>
-                <q-form class="text-primary job-form">
-                    <q-item>
-                        <q-item-section>
-                            <q-item-label>Only Jobs Near Me</q-item-label>
-                        </q-item-section>
-                        <q-item-section avatar>
-                            <q-toggle
-                                color="primary"
-                                :value="nearby"
-                                @input="updateNearby"/>
-                        </q-item-section>
-                    </q-item>
-                    <q-item>
-                        <q-item-section>
-                            <q-item-label>Show Newest Jobs First</q-item-label>
-                        </q-item-section>
-                        <q-item-section avatar>
-                            <q-toggle
-                                color="primary"
-                                :value="sortByDate"
-                                @input="updateSortByDate"/>
-                        </q-item-section>
-                    </q-item>
-                    <q-item>
-                        <q-input
-                            class="form-item-width"
-                            label="Radius"
-                            :value="radius"
-                            @input="updateRadius"
-                            suffix="mi"
-                        />
-                    </q-item>
-                    <q-item>
-                        <q-select
-                            class="form-item-width"
-                            :options="educationLevelOptions"
-                            :value="educationLevel"
-                            @input="updateEducationLevel"
-                            label="Education Level"
-                            emit-value
-                            map-options
-                        />
-                    </q-item>
-                    <q-item>
-                        <q-select
-                            class="form-item-width"
-                            :options="jobTypeOptions"
-                            :value="jobType"
-                            @input="updateJobType"
-                            label="Job Type"
-                            emit-value
-                            map-options
-                        />
-                    </q-item>
-                </q-form>
-            </q-page>
-        </q-page-container>
-    </q-layout>
+    <q-page padding>
+        <q-form class="text-primary job-form">
+            <q-item>
+                <q-item-section>
+                    <q-item-label>Only Jobs Near Me</q-item-label>
+                </q-item-section>
+                <q-item-section avatar>
+                    <q-toggle
+                        color="primary"
+                        :value="nearby"
+                        @input="updateNearby"/>
+                </q-item-section>
+            </q-item>
+            <q-item>
+                <q-item-section>
+                    <q-item-label>Show Newest Jobs First</q-item-label>
+                </q-item-section>
+                <q-item-section avatar>
+                    <q-toggle
+                        color="primary"
+                        :value="sortByDate"
+                        @input="updateSortByDate"/>
+                </q-item-section>
+            </q-item>
+            <q-item>
+                <q-input
+                    class="form-item-width"
+                    label="Radius"
+                    :value="radius"
+                    @input="updateRadius"
+                    suffix="mi"
+                />
+            </q-item>
+            <q-item>
+                <q-select
+                    class="form-item-width"
+                    :options="educationLevelOptions"
+                    :value="educationLevel"
+                    @input="updateEducationLevel"
+                    label="Education Level"
+                    emit-value
+                    map-options
+                />
+            </q-item>
+            <q-item>
+                <q-select
+                    class="form-item-width"
+                    :options="jobTypeOptions"
+                    :value="jobType"
+                    @input="updateJobType"
+                    label="Job Type"
+                    emit-value
+                    map-options
+                />
+            </q-item>
+        </q-form>
+    </q-page>
 </template>
 
 <script>

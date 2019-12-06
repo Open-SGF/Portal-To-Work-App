@@ -1,66 +1,60 @@
 <template>
-    <div class="wrapper">
-        <q-layout>
-            <q-page-container>
-                <q-page class="q-pt-md">
-                    <p><strong>Location For Job Search</strong></p>
-                    <q-btn
-                        class="q-px-xl q-pa-sm"
-                        size="md"
-                        unelevated
-                        rounded
-                        color="primary"
-                        label="Use My Current Location"
-                        @click="getLocation"
-                    />
-                    <h5>OR</h5>
-                    <q-form class="q-px-md q-pb-lg q-gutter-md">
-                        <q-input
-                            outlined
-                            :value="addressLine1"
-                            @input="updateAddressLine1"
-                            label="Street Address"
-                        />
-                        <q-input
-                            outlined
-                            :value="addressLine2"
-                            @input="updateAddressLine2"
-                            label="Line 2"
-                        />
-                        <q-input
-                            outlined
-                            :value="city"
-                            @input="updateCity"
-                            label="City"
-                        />
-                        <q-select
-                            outlined
-                            :value="state"
-                            @input="updateState"
-                            label="State"
-                            :options="options"
-                            emit-value
-                            map-options
-                        />
-                        <q-input
-                            outlined
-                            :value="zipCode"
-                            @input="updateZipCode"
-                            label="Postal Code"
-                        />
-                    </q-form>
-                    <q-btn
-                        class="q-px-xl q-pa-sm"
-                        size="lg"
-                        unelevated
-                        rounded
-                        @click="setAddress"
-                        color="primary"
-                        label="Use This Address"
-                    />
-                </q-page>
-            </q-page-container>
-        </q-layout>
+    <q-page padding class="q-py-md wrapper">
+        <p><strong>Location For Job Search</strong></p>
+        <q-btn
+            class="q-px-xl q-pa-sm"
+            size="md"
+            unelevated
+            rounded
+            color="primary"
+            label="Use My Current Location"
+            @click="getLocation"
+        />
+        <h5>OR</h5>
+        <q-form class="q-px-md q-pb-lg q-gutter-md">
+            <q-input
+                outlined
+                :value="addressLine1"
+                @input="updateAddressLine1"
+                label="Street Address"
+            />
+            <q-input
+                outlined
+                :value="addressLine2"
+                @input="updateAddressLine2"
+                label="Line 2"
+            />
+            <q-input
+                outlined
+                :value="city"
+                @input="updateCity"
+                label="City"
+            />
+            <q-select
+                outlined
+                :value="state"
+                @input="updateState"
+                label="State"
+                :options="options"
+                emit-value
+                map-options
+            />
+            <q-input
+                outlined
+                :value="zipCode"
+                @input="updateZipCode"
+                label="Postal Code"
+            />
+        </q-form>
+        <q-btn
+            class="q-px-xl q-pa-sm"
+            size="lg"
+            unelevated
+            rounded
+            @click="setAddress"
+            color="primary"
+            label="Use This Address"
+        />
         <q-dialog
             v-model="showError"
         >
@@ -78,7 +72,7 @@
                 </q-card-actions>
             </q-card>
         </q-dialog>
-    </div>
+    </q-page>
 </template>
 
 <script>

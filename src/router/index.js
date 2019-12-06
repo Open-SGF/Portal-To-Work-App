@@ -22,11 +22,14 @@ export default function (/* { store, ssrContext } */) {
         mode: process.env.VUE_ROUTER_MODE,
         base: process.env.VUE_ROUTER_BASE,
     });
-
-    Vue.use(VueAnalytics, {
-       id: process.env.GOOGLE_ANALYTICS_ID,
-       router,
-    });
+    
+    if(!process.env.DEV) {
+        Vue.use(VueAnalytics, {
+            id: process.env.GOOGLE_ANALYTICS_ID,
+            router,
+         });
+    }
+    
 
     return router;
 }

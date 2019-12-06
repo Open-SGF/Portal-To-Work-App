@@ -4,14 +4,14 @@
             <q-icon
                 v-if="back != null"
                 class="q-ml-md col-2"
-                color="primary"
+                color="white"
                 size="md"
                 name="arrow_back"
                 @click="goBack"
             />
         </div>
         <div class="col text-center">
-            <p class="text-h6 text-uppercase text-weight-medium">{{ title }}</p>
+            <p class="text-h6 text-uppercase text-weight-medium text-white">{{ title }}</p>
         </div>
     </div>
 </template>

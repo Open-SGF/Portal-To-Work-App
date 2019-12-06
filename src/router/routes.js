@@ -4,7 +4,7 @@ const routes = [
         component: () => import('pages/AddressForm.vue'),
     },
     {
-        path: '/app',
+        path: '',
         component: () => import('layouts/MainLayout.vue'),
         children: [
             {
@@ -18,46 +18,46 @@ const routes = [
                 path: 'jobs/filter',
                 component: () => import('pages/JobsFilter.vue'),
                 meta: {
-                    title: "Job Search Settings",
-                    back: "/app/jobs"
-                }
+                    title: 'Job Search Settings',
+                    back: '/jobs',
+                },
             },
             {
                 path: 'jobs/:id',
                 component: () => import('pages/JobDetail.vue'),
                 meta: {
-                    title: "Job Details",
-                    back: "/app/jobs"
-                }
+                    title: 'Job Details',
+                    back: '/jobs',
+                },
             },
             {
                 path: 'notifications',
                 component: () => import('pages/Notifications.vue'),
                 meta: {
-                    title: "Notifications"
-                }
+                    title: 'Notifications',
+                },
             },
             {
                 path: 'saved-jobs',
                 component: () => import('pages/SavedJobs.vue'),
                 meta: {
-                    title: "Favorite Jobs"
-                }
+                    title: 'Favorite Jobs',
+                },
             },
             {
                 path: 'events',
                 component: () => import('pages/Events.vue'),
                 meta: {
-                    title: "Events"
-                }
+                    title: 'Events',
+                },
             },
             {
                 path: 'events/:id',
                 component: () => import('pages/EventDetail.vue'),
                 meta: {
-                    title: "Event Details",
-                    back: "/app/events"
-                }
+                    title: 'Event Details',
+                    back: '/events',
+                },
             },
             // {
             //     path: 'settings',
@@ -70,8 +70,8 @@ const routes = [
                 path: 'settings/location',
                 component: () => import('pages/AddressForm.vue'),
                 meta: {
-                    title: "Settings",
-                }
+                    title: 'Settings',
+                },
             },
         ],
     },

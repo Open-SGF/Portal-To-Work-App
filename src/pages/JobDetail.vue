@@ -4,13 +4,13 @@
             <p class="text-h5 text-weight-medium">{{ job.title }}</p>
             <div class="row">
                 <p class="text-subtitle1">{{ job.employer.name }}</p>
-                <q-space />
+                <q-space/>
                 <q-btn
                     round
                     flat
                     @click="toggleFavorite"
                     class="text-primary q-pb-md"
-                    :icon="isFavorited ? 'favorite' : 'favorite_border'" />
+                    :icon="isFavorited ? 'favorite' : 'favorite_border'"/>
             </div>
 
             <q-list bordered class="rounded-borders text-primary">
@@ -55,7 +55,7 @@
                 :href="job.url"
             />
 
-            <google-map v-if="locations.length > 0" :pins="locations" class="map" />
+            <google-map v-if="locations.length > 0" :pins="locations" class="map"/>
 
             <div class="row q-py-md">
                 <div v-if="walkingTime" class="icon-set">
@@ -123,10 +123,10 @@
 
 <script>
 
-    import {jobsApi} from '../common/http';
-    import GoogleMap from "../components/GoogleMap";
-    import { mapState, mapMutations }  from 'vuex';
-    import { googleMaps } from "../common/google-maps";
+    import { jobsApi } from '../common/http';
+    import GoogleMap from '../components/GoogleMap';
+    import { mapState, mapMutations } from 'vuex';
+    import { googleMaps } from '../common/google-maps';
     import jobTypes from '../common/job-types';
     import educationLevels from '../common/education-levels';
 
@@ -169,20 +169,20 @@
                 let next = '';
 
                 if (this.job.locations.data[0].lat !== null && this.job.locations.data[0].lng !== null) {
-                    next = encodeURIComponent(this.job.locations.data[0].lat) + "," +
-                        encodeURIComponent(" " + this.job.locations.data[0].lng);
+                    next = encodeURIComponent(this.job.locations.data[0].lat) + ',' +
+                        encodeURIComponent(' ' + this.job.locations.data[0].lng);
                 } else {
-                    next = encodeURIComponent(this.job.locations.data[0].street + " ") +
-                        encodeURIComponent(this.job.locations.data[0].city) + "," +
-                        encodeURIComponent(" " + this.job.locations.data[0].state + " ") +
+                    next = encodeURIComponent(this.job.locations.data[0].street + ' ') +
+                        encodeURIComponent(this.job.locations.data[0].city) + ',' +
+                        encodeURIComponent(' ' + this.job.locations.data[0].state + ' ') +
                         encodeURIComponent(this.job.locations.data[0].zipcode);
                 }
                 return base + next;
             },
             isFavorited() {
                 const ids = this.favoriteJobs.map(job => job.id);
-                return ids.includes(this.job.id)
-            }
+                return ids.includes(this.job.id);
+            },
         },
         methods: {
             ...mapMutations([
@@ -201,7 +201,7 @@
                     id: this.job.id,
                     title: this.job.title,
                     employer: this.job.employer.name,
-                    created_at: this.job.created_at
+                    created_at: this.job.created_at,
                 });
 
             },
@@ -225,13 +225,13 @@
                 directionsService.route(request, (result, status) => {
                     this[dataName] = result.routes[0].legs[0].duration.text;
                 });
-            }
+            },
         },
         created() {
             this.$q.loading.show({
                 message: 'Loading job info',
             });
-            const {id} = this.$route.params;
+            const { id } = this.$route.params;
 
             if (!id) {
                 this.$router.push('/404');
@@ -246,11 +246,15 @@
                 this.getTravelTimeFor('TRANSIT', 'transitTime');
                 this.getTravelTimeFor('WALKING', 'walkingTime');
                 this.$q.loading.hide();
-                console.log(this.job)
             }).catch((err) => {
-                console.log(err);
                 this.$q.loading.hide();
-                this.$router.push('/404');
+
+                if (err.response.status === 404) {
+                    this.$router.push('/404');
+                    return;
+                }
+
+                this.$q.notify('There was an error loading that job');
             });
         },
     };

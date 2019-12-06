@@ -186,7 +186,7 @@
                 });
             },
             navigate() {
-                this.$router.push('/app/jobs');
+                this.$router.push('/jobs');
             }
         },
     };

@@ -7,15 +7,5 @@
 </template>
 
 <script>
-    export default {
-        name: 'SimpleLayout',
-        computed: {
-            title() {
-                return this.$route.meta.title;
-            },
-            back() {
-                return this.$route.meta.back;
-            },
-        },
-    }
+    export default {}
 </script>

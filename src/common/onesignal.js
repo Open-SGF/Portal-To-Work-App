@@ -17,16 +17,18 @@ export async function setup() {
 
 function getOneSignalUserId() {
     return new Promise((resolve, reject) => {
-        const OneSignal = window.OneSignal || [];
+        window.OneSignal = window.OneSignal || [];
 
         OneSignal.push(() => {
             OneSignal.init({
                 appId: process.env.ONESIGNAL_APP_ID,
             });
+        });
 
+        OneSignal.push(() => {
             OneSignal.getUserId().then((userId) => {
                 resolve(userId);
             });
-        });
+        })
     });
 }

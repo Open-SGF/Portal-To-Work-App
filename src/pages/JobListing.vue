@@ -26,7 +26,7 @@
                                     color="primary"
                                     icon="settings"
                                     class="q-mx-sm"
-                                    to="/app/jobs/filter"
+                                    to="/jobs/filter"
                                 />
                             </div>
                         </div>
@@ -143,7 +143,7 @@
                     .filter(location => location.lat && location.lng);
             },
             onMapSelect(value) {
-                this.$router.push(`/app/jobs/${value}`);
+                this.$router.push(`/jobs/${value}`);
             },
             milesToKilometers(miles) {
                 return miles * 1.60934;

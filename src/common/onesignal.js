@@ -4,9 +4,7 @@ import { loadScript } from './helpers';
 export async function setup() {
     if (window === undefined) return;
 
-    const isLocalHost = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
-
-    if (Platform.is.cordova || Platform.is.capacitor || isLocalHost) {
+    if (Platform.is.cordova || Platform.is.capacitor || window.location.hostname !== process.env.PRODUCTION_DOMAIN) {
         return;
     }
 

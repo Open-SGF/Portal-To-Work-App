@@ -13,7 +13,7 @@ const routes = [
         ]
     },
     {
-        path: '/app',
+        path: '',
         component: () => import('layouts/MainLayout.vue'),
         children: [
             {

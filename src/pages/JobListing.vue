@@ -25,7 +25,7 @@
                                 color="primary"
                                 icon="settings"
                                 class="q-mx-sm"
-                                to="/app/jobs/filter"
+                                to="/jobs/filter"
                             />
                         </div>
                     </div>

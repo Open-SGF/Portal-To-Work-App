@@ -27,7 +27,8 @@
         }),
         components: { EventCard },
         created() {
-            this.events = JSON.parse(localStorage.getItem('events'));
+            const events = JSON.parse(localStorage.getItem('events'));
+            this.events = events.slice(0, 100);
         },
     };
 </script>

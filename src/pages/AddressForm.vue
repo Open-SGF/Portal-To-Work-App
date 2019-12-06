@@ -118,8 +118,9 @@
                 'updateCity',
                 'updateState',
                 'updateZipCode',
+                'updateCoordinates'
             ]),
-            ...mapActions(['register']),
+            ...mapActions(['registerDevice']),
             displayError(message) {
                 this.errorMessage = message;
                 this.showError = true;
@@ -135,7 +136,7 @@
                 });
 
                 navigator.geolocation.getCurrentPosition(({ coords }) => {
-                    this.register({
+                    this.registerLocation({
                         latitude: coords.latitude,
                         longitude: coords.longitude,
                     });
@@ -175,7 +176,7 @@
 
                     const coordinates = results[0].geometry.location;
 
-                    this.register({
+                    this.registerLocation({
                         latitude: coordinates.lat(),
                         longitude: coordinates.lng(),
                     });
@@ -184,6 +185,10 @@
 
                     this.navigate();
                 });
+            },
+            registerLocation(coordinates) {
+                this.updateCoordinates(coordinates);
+                this.registerDevice();
             },
             navigate() {
                 this.$router.push('/jobs');

@@ -96,8 +96,8 @@ export default function (/* { ssrContext } */) {
 
                 await portalToWorkApi.post('/device/register', {
                     playerId: state.userId,
-                    lat: coordinates.latitude,
-                    lng: coordinates.longitude,
+                    lat: state.coordinates.latitude,
+                    lng: state.coordinates.longitude,
                 });
             },
         },

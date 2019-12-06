@@ -24,10 +24,6 @@ function getOneSignalUserId() {
                 appId: process.env.ONESIGNAL_APP_ID,
             });
 
-            // OneSignal.getUserId().then((userId) => {
-            //     resolve(userId);
-            // });
-
             OneSignal.on('subscriptionChange',() => {
                 OneSignal.push(() => {
                     OneSignal.getUserId().then((userId) => {
@@ -36,8 +32,5 @@ function getOneSignalUserId() {
                 });
             });
         });
-
-        // OneSignal.push(() => {
-        // })
     });
 }

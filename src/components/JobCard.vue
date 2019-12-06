@@ -34,7 +34,7 @@
         },
         methods: {
             navigateToDetail() {
-                this.$router.push(`/app/jobs/${this.id}`);
+                this.$router.push(`/jobs/${this.id}`);
             },
         },
         computed: {

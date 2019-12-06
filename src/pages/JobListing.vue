@@ -3,7 +3,7 @@
         <div class="listing-page-container">
             <ais-instant-search
                 :search-client="searchClient"
-                :index-name="sortByDate ? 'Jobs_date' : 'jobs'"
+                :index-name="sortByDate ? 'jobs_date' : 'jobs'"
                 class="full-width q-pt-md"
             >
                 <ais-configure v-bind="searchParameters" />
@@ -141,7 +141,7 @@
                     .filter(location => location.lat && location.lng);
             },
             onMapSelect(value) {
-                this.$router.push(`/app/jobs/${value}`);
+                this.$router.push(`/jobs/${value}`);
             },
             milesToKilometers(miles) {
                 return miles * 1.60934;

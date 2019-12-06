@@ -24,7 +24,7 @@
         },
         methods: {
             navigateToEDetail() {
-                this.$router.push(`/app/events/${this.id}`);
+                this.$router.push(`/events/${this.id}`);
             }
         },
     }

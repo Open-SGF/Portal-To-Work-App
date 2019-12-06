@@ -1,78 +1,78 @@
 <template>
-    <q-page padding class="q-py-md wrapper">
-        <p><strong>Location For Job Search</strong></p>
-        <q-btn
-            class="q-px-xl q-pa-sm"
-            size="md"
-            unelevated
-            rounded
-            color="primary"
-            label="Use My Current Location"
-            @click="getLocation"
-        />
-        <h5>OR</h5>
-        <q-form class="q-px-md q-pb-lg q-gutter-md">
-            <q-input
-                outlined
-                :value="addressLine1"
-                @input="updateAddressLine1"
-                label="Street Address"
+    <div class="wrapper">
+        <q-page class="q-pt-md">
+            <p><strong>Location For Job Search</strong></p>
+            <q-btn
+                class="q-px-xl q-pa-sm"
+                size="md"
+                unelevated
+                rounded
+                color="primary"
+                label="Use My Current Location"
+                @click="getLocation"
             />
-            <q-input
-                outlined
-                :value="addressLine2"
-                @input="updateAddressLine2"
-                label="Line 2"
+            <h5>OR</h5>
+            <q-form class="q-px-md q-pb-lg q-gutter-md">
+                <q-input
+                    outlined
+                    :value="addressLine1"
+                    @input="updateAddressLine1"
+                    label="Street Address"
+                />
+                <q-input
+                    outlined
+                    :value="addressLine2"
+                    @input="updateAddressLine2"
+                    label="Line 2"
+                />
+                <q-input
+                    outlined
+                    :value="city"
+                    @input="updateCity"
+                    label="City"
+                />
+                <q-select
+                    outlined
+                    :value="state"
+                    @input="updateState"
+                    label="State"
+                    :options="options"
+                    emit-value
+                    map-options
+                />
+                <q-input
+                    outlined
+                    :value="zipCode"
+                    @input="updateZipCode"
+                    label="Postal Code"
+                />
+            </q-form>
+            <q-btn
+                class="q-px-xl q-pa-sm"
+                size="lg"
+                unelevated
+                rounded
+                @click="setAddress"
+                color="primary"
+                label="Use This Address"
             />
-            <q-input
-                outlined
-                :value="city"
-                @input="updateCity"
-                label="City"
-            />
-            <q-select
-                outlined
-                :value="state"
-                @input="updateState"
-                label="State"
-                :options="options"
-                emit-value
-                map-options
-            />
-            <q-input
-                outlined
-                :value="zipCode"
-                @input="updateZipCode"
-                label="Postal Code"
-            />
-        </q-form>
-        <q-btn
-            class="q-px-xl q-pa-sm"
-            size="lg"
-            unelevated
-            rounded
-            @click="setAddress"
-            color="primary"
-            label="Use This Address"
-        />
-        <q-dialog
-            v-model="showError"
-        >
-            <q-card>
-                <q-card-section>
-                    <div class="text-h6">Whoops</div>
-                </q-card-section>
+            <q-dialog v-model="showError" >
+                <q-card>
+                    <q-card-section>
+                        <div class="text-h6">Whoops</div>
+                    </q-card-section>
 
-                <q-card-section v-text="errorMessage">
-                    Looks like your browser doesn't support this feature
-                </q-card-section>
+                    <q-card-section v-text="errorMessage">
+                        Looks like your browser doesn't support this feature
+                    </q-card-section>
 
-                <q-card-actions align="right" class="bg-white text-teal">
-                    <q-btn flat label="OK" v-close-popup/>
-                </q-card-actions>
-            </q-card>
-        </q-dialog>
-    </q-page>
+                    <q-card-actions align="right" class="bg-white text-teal">
+                        <q-btn flat label="OK" v-close-popup/>
+                    </q-card-actions>
+                </q-card>
+            </q-dialog>
+        </q-page>
+    </div>
 </template>
 
 <script>
@@ -112,8 +112,9 @@
                 'updateCity',
                 'updateState',
                 'updateZipCode',
+                'updateCoordinates'
             ]),
-            ...mapActions(['register']),
+            ...mapActions(['registerDevice']),
             displayError(message) {
                 this.errorMessage = message;
                 this.showError = true;
@@ -129,7 +130,7 @@
                 });
 
                 navigator.geolocation.getCurrentPosition(({ coords }) => {
-                    this.register({
+                    this.registerLocation({
                         latitude: coords.latitude,
                         longitude: coords.longitude,
                     });
@@ -169,7 +170,7 @@
 
                     const coordinates = results[0].geometry.location;
 
-                    this.register({
+                    this.registerLocation({
                         latitude: coordinates.lat(),
                         longitude: coordinates.lng(),
                     });
@@ -179,8 +180,12 @@
                     this.navigate();
                 });
             },
+            registerLocation(coordinates) {
+                this.updateCoordinates(coordinates);
+                this.registerDevice();
+            },
             navigate() {
-                this.$router.push('/app/jobs');
+                this.$router.push('/jobs');
             }
         },
     };

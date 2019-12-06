@@ -24,7 +24,7 @@ export default function (/* { ssrContext } */) {
             educationLevel: 'all',
             jobType: 'all',
             currentTab: 'list',
-            favoriteJobs: []
+            favoriteJobs: [],
         },
         mutations: {
             initialiseStore(state) {
@@ -84,21 +84,22 @@ export default function (/* { ssrContext } */) {
             },
             removeFavoriteJob(state, id) {
                 state.favoriteJobs = state.favoriteJobs.filter(job => job.id !== id);
-            }
+            },
         },
         getters: {},
         actions: {
-            async register({ commit, state }, coordinates) {
-                commit('updateCoordinates', coordinates);
+            async registerDevice({ state }) {
 
                 if (!state.userId) return;
 
+                if (!state.coordinates.latitude || !state.coordinates.longitude) return;
+
                 await portalToWorkApi.post('/device/register', {
                     playerId: state.userId,
-                    lat: coordinates.latitude,
-                    lng: coordinates.longitude
+                    lat: state.coordinates.latitude,
+                    lng: state.coordinates.longitude,
                 });
-            }
+            },
         },
 
         // enable strict mode (adds overhead!)

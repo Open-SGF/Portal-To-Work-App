@@ -1,21 +1,19 @@
 <template>
-    <q-page-container padding>
-        <q-page id="saved-jobs">
-            <div class="saved-jobs-page-container">
-                <div class="card-container">
-                    <job-card
-                        v-for="job in favoriteJobs"
-                        :id="job.id"
-                        :key="job.id"
-                        :title="job.title"
-                        :sub-title="job.employer"
-                        :time="job.created_at"
-                        main-icon="favorite"
-                    />
-                </div>
+    <q-page id="saved-jobs">
+        <div class="saved-jobs-page-container">
+            <div class="card-container">
+                <job-card
+                    v-for="job in favoriteJobs"
+                    :id="job.id"
+                    :key="job.id"
+                    :title="job.title"
+                    :sub-title="job.employer"
+                    :time="job.created_at"
+                    main-icon="favorite"
+                />
             </div>
-        </q-page>
-    </q-page-container>
+        </div>
+    </q-page>
 </template>
 
 <script>

@@ -1,23 +1,21 @@
 <template>
-    <q-page-container>
-        <q-page q-py-md
-                q-px-lg
-                class="flex flex-center event-page">
-            <div class="events-page-container">
-                <div class="card-container">
-                    <event-card
-                        v-for="card in events"
-                        :id="card.id"
-                        :key="card.id"
-                        :title="card.title"
-                        :description="card.description"
-                        month="Nov"
-                        day="4"
-                    />
-                </div>
+    <q-page q-py-md
+            q-px-lg
+            class="flex flex-center event-page">
+        <div class="events-page-container">
+            <div class="card-container">
+                <event-card
+                    v-for="card in events"
+                    :id="card.id"
+                    :key="card.id"
+                    :title="card.title"
+                    :description="card.description"
+                    month="Nov"
+                    day="4"
+                />
             </div>
-        </q-page>
-    </q-page-container>
+        </div>
+    </q-page>
 </template>
 
 <script>

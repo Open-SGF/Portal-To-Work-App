@@ -1,5 +1,5 @@
 <template>
-    <q-page padding id="listing-page">
+    <q-page padding id="listing-page" class="q-px-none">
         <div class="listing-page-container">
             <ais-instant-search
                 :search-client="searchClient"

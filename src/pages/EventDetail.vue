@@ -50,6 +50,9 @@
                     size="lg"
                     color="primary"
                     label="Map"
+                    type="a"
+                    target="_blank"
+                    :href="getDirections"
                 />
             </q-card-section>
             <q-card-section class="col q-py-none text-left">
@@ -135,7 +138,22 @@
                     lat: parseFloat(lat),
                     lng: parseFloat(lng),
                 }];
-            }
+            },
+            getDirections() {
+                let base = 'https://www.google.com/maps/dir/?api=1&destination=';
+                let next = '';
+
+                if (this.event.location.lat !== null && this.event.location.lng !== null) {
+                    next = encodeURIComponent(this.event.location.lat) + ',' +
+                        encodeURIComponent(' ' + this.event.location.lng);
+                } else {
+                    next = encodeURIComponent(this.event.location.street + ' ') +
+                        encodeURIComponent(this.event.location.city) + ',' +
+                        encodeURIComponent(' ' + this.event.location.state + ' ') +
+                        encodeURIComponent(this.event.location.zipcode);
+                }
+                return base + next;
+            },
         },
     }
 </script>

@@ -48,7 +48,7 @@
                 />
             </q-form>
             <q-btn
-                class="q-px-xl q-pa-sm"
+                class="q-px-xl q-py-sm q-mb-md"
                 size="lg"
                 unelevated
                 rounded

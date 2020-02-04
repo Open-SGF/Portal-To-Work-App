@@ -1,5 +1,5 @@
 <template>
-    <q-page class="q-pa-lg text-center" v-if=event>
+    <q-page class="q-pa-lg desktop-friendly text-center" v-if=event>
         <p class="text-h5 text-weight-medium">{{ event.title }}</p>
         <p class="text-subtitle1">{{ }}</p>
 
@@ -39,7 +39,7 @@
             </q-item>
         </q-list>
 
-        <google-map v-if="location" :pins="location" class="map"/>
+        <google-map v-if="location" :pins="location" class="map q-my-md"/>
 
         <q-card flat class="row address-section text-primary">
             <q-card-section class="col">

@@ -1,5 +1,5 @@
 <template>
-    <q-page class="q-px-sm q-pt-lg job-page" v-if="job">
+    <q-page class="q-px-sm q-pt-lg desktop-friendly" v-if="job">
         <p class="text-h5 text-weight-medium">{{ job.title }}</p>
         <div class="row">
             <p class="text-subtitle1">{{ job.employer.name }}</p>
@@ -308,11 +308,6 @@
 </script>
 
 <style scoped lang="scss">
-    .job-page {
-        margin: 0 auto;
-        max-width: 600px;
-    }
-
     .col p {
         font-size: 20px;
     }

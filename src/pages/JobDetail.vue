@@ -1,5 +1,5 @@
 <template>
-    <q-page class="q-px-sm q-pt-lg job-page" v-if="job">
+    <q-page class="q-px-sm q-pt-lg desktop-friendly" v-if="job">
         <p class="text-h5 text-weight-medium">{{ job.title }}</p>
         <div class="row">
             <p class="text-subtitle1">{{ job.employer.name }}</p>
@@ -105,15 +105,27 @@
                     color="primary"
                     label="Map"
                     type="a"
-                    :href="getDirections"
+                    :href="directionsURL"
                     target="_blank"
                 />
             </q-card-section>
-            <q-card-section class="q-py-none">
+            <q-card-section
+                v-if="allLocations.length == 1"
+                class="q-py-none"
+            >
                 <q-item-label>{{ job.locations.data[0].street }}</q-item-label>
                 <q-item-label caption>{{ job.locations.data[0].city }}, {{ job.locations.data[0].state }} {{
                     job.locations.data[0].zipcode }}
                 </q-item-label>
+            </q-card-section>
+            <q-card-section v-if="allLocations.length > 1" class="q-py-none">
+                <q-select
+                    :options="options"
+                    v-model="selectedLocation"
+                    @input="getDirections"
+                    emit-value
+                >
+                </q-select>
             </q-card-section>
         </q-card>
     </q-page>
@@ -139,6 +151,9 @@
             walkingTime: null,
             transitTime: null,
             bikingTime: null,
+            options: [],
+            selectedLocation: '',
+            directionsURL: '',
         }),
         computed: {
             ...mapState(['coordinates', 'favoriteJobs']),
@@ -162,20 +177,37 @@
                     }))
                     .filter(location => location.lng && location.lat);
             },
-            getDirections() {
-                let base = 'https://www.google.com/maps/dir/?api=1&destination=';
-                let next = '';
+            allLocations() {
+                if (this.job == null) return [];
 
-                if (this.job.locations.data[0].lat !== null && this.job.locations.data[0].lng !== null) {
-                    next = encodeURIComponent(this.job.locations.data[0].lat) + ',' +
-                        encodeURIComponent(' ' + this.job.locations.data[0].lng);
-                } else {
-                    next = encodeURIComponent(this.job.locations.data[0].street + ' ') +
-                        encodeURIComponent(this.job.locations.data[0].city) + ',' +
-                        encodeURIComponent(' ' + this.job.locations.data[0].state + ' ') +
-                        encodeURIComponent(this.job.locations.data[0].zipcode);
-                }
-                return base + next;
+                let locationList = this.job.locations.data
+                    .map(location => ({
+                        label: location.street,
+                        value: location.street,
+                        allData: location,
+                    }))
+
+                this.options = locationList;
+                return locationList;
+            },
+            getDirections() {
+                this.options.forEach(selected => {
+                    if (this.selectedLocation == selected.label) {
+                        let base = 'https://www.google.com/maps/dir/?api=1&destination=';
+                        let next = '';
+
+                        if (selected.allData.lat !== null && selected.allData.lng !== null) {
+                            next = encodeURIComponent(selected.allData.lat) + ',' +
+                                encodeURIComponent(' ' + selected.allData.lng);
+                        } else {
+                            next = encodeURIComponent(selected.allData.street + ' ') +
+                                encodeURIComponent(selected.allData.city) + ',' +
+                                encodeURIComponent(' ' + selected.allData.state + ' ') +
+                                encodeURIComponent(selected.allData.zipcode);
+                        }
+                        this.directionsURL = base + next;
+                    }
+                });
             },
             isFavorited() {
                 const ids = this.favoriteJobs.map(job => job.id);
@@ -244,6 +276,23 @@
                 this.getTravelTimeFor('TRANSIT', 'transitTime');
                 this.getTravelTimeFor('WALKING', 'walkingTime');
                 this.$q.loading.hide();
+
+                // Create default directionsURL and selection
+                let base = 'https://www.google.com/maps/dir/?api=1&destination=';
+                let next = '';
+
+                if (this.job.locations.data[0].lat !== null && this.job.locations.data[0].lng !== null) {
+                    next = encodeURIComponent(this.job.locations.data[0].lat) + ',' +
+                        encodeURIComponent(' ' + this.job.locations.data[0].lng);
+                } else {
+                    next = encodeURIComponent(this.job.locations.data[0].street + ' ') +
+                        encodeURIComponent(this.job.locations.data[0].city) + ',' +
+                        encodeURIComponent(' ' + this.job.locations.data[0].state + ' ') +
+                        encodeURIComponent(this.job.locations.data[0].zipcode);
+                }
+                this.directionsURL = base + next;
+                this.selectedLocation = this.job.locations.data[0].street;
+
             }).catch((err) => {
                 this.$q.loading.hide();
 
@@ -259,11 +308,6 @@
 </script>
 
 <style scoped lang="scss">
-    .job-page {
-        margin: 0 auto;
-        max-width: 600px;
-    }
-
     .col p {
         font-size: 20px;
     }

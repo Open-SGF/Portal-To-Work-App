@@ -1,17 +1,15 @@
 <template>
-    <q-page id="saved-jobs">
-        <div class="saved-jobs-page-container">
-            <div class="card-container">
-                <job-card
-                    v-for="job in favoriteJobs"
-                    :id="job.id"
-                    :key="job.id"
-                    :title="job.title"
-                    :sub-title="job.employer"
-                    :time="job.created_at"
-                    main-icon="favorite"
-                />
-            </div>
+    <q-page id="saved-jobs" class="desktop-friendly">
+        <div class="card-container">
+            <job-card
+                v-for="job in favoriteJobs"
+                :id="job.id"
+                :key="job.id"
+                :title="job.title"
+                :sub-title="job.employer"
+                :time="job.created_at"
+                main-icon="favorite"
+            />
         </div>
     </q-page>
 </template>
@@ -40,18 +38,7 @@
             margin: 20px;
         }
     }
-    .saved-jobs-page-container {
-        margin: 0 auto;
-        width: 75%;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-
-        @media (max-width: 600px) {
-            width: 95%
-        }
-    }
     .card-container {
-        width: 100%;
+        padding: 0 8px;
     }
 </style>

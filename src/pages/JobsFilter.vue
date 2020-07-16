@@ -12,6 +12,15 @@
                         @input="updateNearby"/>
                 </q-item-section>
             </q-item>
+            <q-item v-if="nearby">
+                <q-input
+                    class="form-item-width"
+                    label="Radius"
+                    :value="radius"
+                    @input="updateRadius"
+                    suffix="mi"
+                />
+            </q-item>
             <q-item>
                 <q-item-section>
                     <q-item-label>Show Newest Jobs First</q-item-label>
@@ -22,15 +31,6 @@
                         :value="sortByDate"
                         @input="updateSortByDate"/>
                 </q-item-section>
-            </q-item>
-            <q-item>
-                <q-input
-                    class="form-item-width"
-                    label="Radius"
-                    :value="radius"
-                    @input="updateRadius"
-                    suffix="mi"
-                />
             </q-item>
             <q-item>
                 <q-select

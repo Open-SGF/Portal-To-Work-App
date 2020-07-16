@@ -11,12 +11,16 @@
             @click="getLocation"
         />
         <h5>OR</h5>
-        <q-form class="q-px-md q-pb-lg q-gutter-md">
+        <q-form
+            class="q-px-md q-pb-lg q-gutter-md"
+            @submit="setAddress"
+            >
             <q-input
                 outlined
                 :value="addressLine1"
                 @input="updateAddressLine1"
                 label="Street Address"
+                :rules="[val => !!val || 'Field is required']"
             />
             <q-input
                 outlined
@@ -29,6 +33,7 @@
                 :value="city"
                 @input="updateCity"
                 label="City"
+                :rules="[val => !!val || 'Field is required']"
             />
             <q-select
                 outlined
@@ -38,23 +43,25 @@
                 :options="options"
                 emit-value
                 map-options
+                :rules="[val => !!val || 'Field is required']"
             />
             <q-input
                 outlined
                 :value="zipCode"
                 @input="updateZipCode"
                 label="Postal Code"
+                :rules="[val => !!val || 'Field is required']"
+            />
+            <q-btn
+                class="q-px-xl q-py-sm q-mb-md"
+                size="lg"
+                unelevated
+                rounded
+                type="submit"
+                color="primary"
+                label="Use This Address"
             />
         </q-form>
-        <q-btn
-            class="q-px-xl q-py-sm q-mb-md"
-            size="lg"
-            unelevated
-            rounded
-            @click="setAddress"
-            color="primary"
-            label="Use This Address"
-        />
         <q-dialog v-model="showError" >
             <q-card>
                 <q-card-section>
@@ -75,7 +82,7 @@
 
 <script>
     import { mapState, mapMutations, mapActions } from 'vuex';
-    import { googleMaps } from '../common/google-maps';
+    import { getGoogleMaps } from '../common/google-maps';
 
     import states from '../common/states';
 
@@ -149,7 +156,7 @@
                     message: 'Saving address',
                 });
 
-                const google = await googleMaps();
+                const google = await getGoogleMaps();
 
                 if(google == null) {
                     this.$q.loading.hide();
@@ -159,8 +166,10 @@
 
                 const geocoder = new google.maps.Geocoder();
 
+                console.log(this.fullAddress);
+
                 geocoder.geocode({ address: this.fullAddress }, (results, status) => {
-                    if(status !== 'OK') {
+                    if(status !== google.maps.GeocoderStatus.OK) {
                         this.$q.loading.hide();
                         this.displayError(`This doesn't look like a valid address`);
                         return;

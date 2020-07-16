@@ -37,13 +37,14 @@
                         active-color="primary"
                         indicator-color="primary"
                         align="justify"
-                        class="text-primary"
+                        class="text-primary q-pt-sm"
                     >
                         <q-tab name="list" label="List" />
                         <q-tab name="map" label="Map" />
                     </q-tabs>
                     <q-tab-panels :value="currentTab" @input="updateCurrentTab" animated>
                         <q-tab-panel name="list">
+                            <div v-if="items.length == 0" class="text-h5 text-secondary q-pt-xl">No Results</div>
                             <job-card
                                 v-for="item in items"
                                 :key="item.objectID"
@@ -54,8 +55,9 @@
                                 main-icon="favorite"
                             />
                         </q-tab-panel>
-                        <q-tab-panel name="map" class="q-pa-none">
-                            <google-map :pins="mapPins(items)" @select="onMapSelect" class="map"/>
+                        <q-tab-panel name="map">
+                            <google-map v-if="items.length > 0" :pins="mapPins(items)" @select="onMapSelect" class="map"/>
+                            <div v-if="items.length == 0" class="text-h5 text-secondary q-pt-xl">No Results</div>
                         </q-tab-panel>
                     </q-tab-panels>
                 </template>

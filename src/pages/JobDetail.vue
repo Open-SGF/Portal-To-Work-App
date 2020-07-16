@@ -136,7 +136,7 @@
     import { jobsApi } from '../common/http';
     import GoogleMap from '../components/GoogleMap';
     import { mapState, mapMutations } from 'vuex';
-    import { googleMaps } from '../common/google-maps';
+    import { getGoogleMaps } from '../common/google-maps';
     import jobTypes from '../common/job-types';
     import educationLevels from '../common/education-levels';
 
@@ -238,7 +238,7 @@
 
             async getTravelTimeFor(mode, dataName) {
                 if (!this.locations) return;
-                const google = await googleMaps();
+                const google = await getGoogleMaps();
 
                 let directionsService = new google.maps.DirectionsService();
                 let request = {

@@ -5,7 +5,7 @@
 
 <script>
     import { mapState } from 'vuex';
-    import { googleMaps } from '../common/google-maps';
+    import { getGoogleMaps } from '../common/google-maps';
 
     import * as defaultIcon from '../assets/circle.png';
     import * as userIcon from '../assets/home.png';
@@ -29,7 +29,7 @@
             },
         },
         async mounted() {
-            this.$options.google = await googleMaps();
+            this.$options.google = await getGoogleMaps();
             this.initMap();
         },
         methods: {
@@ -122,10 +122,10 @@
         },
         watch: {
             pins() {
-                this.drawPins();
+                // this.drawPins();
             },
             coordinates() {
-                this.drawPins();
+                // this.drawPins();
             }
         },
     };

@@ -1,19 +1,20 @@
-import GoogleMapsLoader from 'google-maps';
+import { Loader } from 'google-maps';
 
 let googleMapsReference = null;
 
-export function googleMaps() {
-    return new Promise((resolve, reject) => {
+export async function getGoogleMaps() {
         if (googleMapsReference != null) {
-            return resolve(googleMapsReference);
+            return googleMapsReference;
+        }
+        
+        const options = {
+            version: 'weekly'
         }
 
-        GoogleMapsLoader.KEY = process.env.GOOGLE_MAPS_API_KEY;
-        GoogleMapsLoader.VERSION = 'weekly';
+        const loader = new Loader(process.env.GOOGLE_MAPS_API_KEY, options);
 
-        GoogleMapsLoader.load(google => {
-            googleMapsReference = google;
-            return resolve(googleMapsReference);
-        });
-    });
+        const google = await loader.load();
+
+        googleMapsReference = google;
+        return googleMapsReference;
 }

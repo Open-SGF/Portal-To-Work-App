@@ -1,6 +1,6 @@
 <template>
-    <q-page padding>
-        <q-form class="text-primary job-form">
+    <q-page padding class="desktop-friendly">
+        <q-form class="text-primary">
             <q-item>
                 <q-item-section>
                     <q-item-label>Only Jobs Near Me</q-item-label>
@@ -12,6 +12,15 @@
                         @input="updateNearby"/>
                 </q-item-section>
             </q-item>
+            <q-item v-if="nearby">
+                <q-input
+                    class="form-item-width"
+                    label="Radius"
+                    :value="radius"
+                    @input="updateRadius"
+                    suffix="mi"
+                />
+            </q-item>
             <q-item>
                 <q-item-section>
                     <q-item-label>Show Newest Jobs First</q-item-label>
@@ -22,15 +31,6 @@
                         :value="sortByDate"
                         @input="updateSortByDate"/>
                 </q-item-section>
-            </q-item>
-            <q-item>
-                <q-input
-                    class="form-item-width"
-                    label="Radius"
-                    :value="radius"
-                    @input="updateRadius"
-                    suffix="mi"
-                />
             </q-item>
             <q-item>
                 <q-select
@@ -90,10 +90,5 @@
         font-size: 1.25em;
         padding: 5px 0px 0px 0px;
         color: $primary;
-    }
-
-    .job-form {
-        margin: 0 auto;
-        max-width: 600px;
     }
 </style>

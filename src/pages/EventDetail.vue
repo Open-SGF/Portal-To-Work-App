@@ -1,5 +1,5 @@
 <template>
-    <q-page class="q-pa-lg text-center" v-if=event>
+    <q-page class="q-pa-lg desktop-friendly text-center" v-if=event>
         <p class="text-h5 text-weight-medium">{{ event.title }}</p>
         <p class="text-subtitle1">{{ }}</p>
 
@@ -39,7 +39,7 @@
             </q-item>
         </q-list>
 
-        <google-map v-if="location" :pins="location" class="map"/>
+        <google-map v-if="location" :pins="location" class="map q-my-md"/>
 
         <q-card flat class="row address-section text-primary">
             <q-card-section class="col">
@@ -50,6 +50,9 @@
                     size="lg"
                     color="primary"
                     label="Map"
+                    type="a"
+                    target="_blank"
+                    :href="getDirections"
                 />
             </q-card-section>
             <q-card-section class="col q-py-none text-left">
@@ -135,7 +138,22 @@
                     lat: parseFloat(lat),
                     lng: parseFloat(lng),
                 }];
-            }
+            },
+            getDirections() {
+                let base = 'https://www.google.com/maps/dir/?api=1&destination=';
+                let next = '';
+
+                if (this.event.location.lat !== null && this.event.location.lng !== null) {
+                    next = encodeURIComponent(this.event.location.lat) + ',' +
+                        encodeURIComponent(' ' + this.event.location.lng);
+                } else {
+                    next = encodeURIComponent(this.event.location.street + ' ') +
+                        encodeURIComponent(this.event.location.city) + ',' +
+                        encodeURIComponent(' ' + this.event.location.state + ' ') +
+                        encodeURIComponent(this.event.location.zipcode);
+                }
+                return base + next;
+            },
         },
     }
 </script>

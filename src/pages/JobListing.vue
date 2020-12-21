@@ -1,68 +1,68 @@
 <template>
-    <q-page padding id="listing-page" class="q-px-none">
-        <div class="listing-page-container">
-            <ais-instant-search
-                :search-client="searchClient"
-                :index-name="sortByDate ? 'jobs_date' : 'jobs'"
-                class="full-width q-pt-md"
-            >
-                <ais-configure v-bind="searchParameters" />
-                <ais-search-box>
-                    <div slot-scope="{ currentRefinement, isSearchStalled, refine }">
-                        <div class="search-and-button q-pl-sm">
-                            <q-input
-                                square
-                                outlined
-                                :value="currentRefinement"
-                                @input="refine($event)"
-                                placeholder="Search"
-                                class="search-bar"
-                            >
-                                <q-btn flat class="search-button" icon="search"></q-btn>
-                            </q-input>
-                            <q-btn
-                                round
-                                color="primary"
-                                icon="settings"
-                                class="q-mx-sm"
-                                to="/jobs/filter"
-                            />
-                        </div>
-                    </div>
-                </ais-search-box>
-                <ais-hits>
-                    <template slot-scope="{ items }">
-                        <q-tabs
-                            :value="currentTab"
-                            @input="updateCurrentTab"
-                            active-color="primary"
-                            indicator-color="primary"
-                            align="justify"
-                            class="text-primary"
+    <q-page padding id="listing-page" class="q-px-none desktop-friendly">
+        <ais-instant-search
+            :search-client="searchClient"
+            :index-name="sortByDate ? 'jobs_date' : 'jobs'"
+            class="full-width q-pt-md"
+        >
+            <ais-configure v-bind="searchParameters" />
+            <ais-search-box>
+                <div slot-scope="{ currentRefinement, isSearchStalled, refine }">
+                    <div class="search-and-button q-pl-sm">
+                        <q-input
+                            square
+                            outlined
+                            :value="currentRefinement"
+                            @input="refine($event)"
+                            placeholder="Search"
+                            class="search-bar"
                         >
-                            <q-tab name="list" label="List" />
-                            <q-tab name="map" label="Map" />
-                        </q-tabs>
-                        <q-tab-panels :value="currentTab" @input="updateCurrentTab" animated>
-                            <q-tab-panel name="list">
-                                <job-card
-                                    v-for="item in items"
-                                    :key="item.objectID"
-                                    :id="item.objectID"
-                                    :title="item.title"
-                                    :sub-title="item.employer.name"
-                                    :time="item.created_at"
-                                    main-icon="favorite"
-                                />
-                            </q-tab-panel>
-                            <q-tab-panel name="map" class="q-pa-none">
-                                <google-map :pins="mapPins(items)" @select="onMapSelect" class="map"/>
-                            </q-tab-panel>
-                        </q-tab-panels>
-                    </template>
-                </ais-hits>
-            </ais-instant-search>
-        </div>
+                            <q-btn flat class="search-button" icon="search"></q-btn>
+                        </q-input>
+                        <q-btn
+                            round
+                            color="primary"
+                            icon="settings"
+                            class="q-mx-sm"
+                            to="/jobs/filter"
+                        />
+                    </div>
+                </div>
+            </ais-search-box>
+            <ais-hits>
+                <template slot-scope="{ items }">
+                    <q-tabs
+                        :value="currentTab"
+                        @input="updateCurrentTab"
+                        active-color="primary"
+                        indicator-color="primary"
+                        align="justify"
+                        class="text-primary q-pt-sm"
+                    >
+                        <q-tab name="list" label="List" />
+                        <q-tab name="map" label="Map" />
+                    </q-tabs>
+                    <q-tab-panels :value="currentTab" @input="updateCurrentTab" animated>
+                        <q-tab-panel name="list">
+                            <div v-if="items.length == 0" class="text-h5 text-secondary q-pt-xl">No Results</div>
+                            <job-card
+                                v-for="item in items"
+                                :key="item.objectID"
+                                :id="item.objectID"
+                                :title="item.title"
+                                :sub-title="item.employer.name"
+                                :time="item.created_at"
+                                main-icon="favorite"
+                            />
+                        </q-tab-panel>
+                        <q-tab-panel name="map">
+                            <google-map v-if="items.length > 0" :pins="mapPins(items)" @select="onMapSelect" class="map"/>
+                            <div v-if="items.length == 0" class="text-h5 text-secondary q-pt-xl">No Results</div>
+                        </q-tab-panel>
+                    </q-tab-panels>
+                </template>
+            </ais-hits>
+        </ais-instant-search>
     </q-page>
 </template>
 
@@ -158,15 +158,6 @@
             font-size: 2em;
             margin: 20px;
         }
-    }
-
-    .listing-page-container {
-        margin: 0 auto;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        max-width: 600px;
-        width: 100%;
     }
 
     .search-and-button {

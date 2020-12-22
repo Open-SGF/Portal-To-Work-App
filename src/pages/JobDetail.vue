@@ -1,133 +1,139 @@
 <template>
-    <q-page class="q-px-sm q-pt-lg desktop-friendly" v-if="job">
-        <p class="text-h5 text-weight-medium">{{ job.title }}</p>
-        <div class="row">
-            <p class="text-subtitle1">{{ job.employer.name }}</p>
-            <q-space />
-            <q-btn
-                round
-                flat
-                @click="toggleFavorite"
-                class="text-primary q-pb-md"
-                :icon="isFavorited ? 'favorite' : 'favorite_border'" />
+    <q-page class="q-px-sm q-pt-lg desktop-friendly">
+        <div v-if="isLoading" class="flex column display-block q-gutter-md items-center">
+            <q-skeleton type="text" width="100%"/>
+            <q-skeleton type="text" width="100%"/>
+            <q-skeleton height="200px" width="100%" square/>
+            <q-skeleton height="30px" width="80%" type="rect"/>
+            <q-skeleton height="200px" width="100%" square/>
+            <q-skeleton height="30px" width="50%" type="rect"/>
         </div>
-
-        <q-list bordered class="rounded-borders text-primary">
-            <q-expansion-item
-                expand-separator
-                label="Job Description"
-            >
-                <q-card>
-                    <q-card-section>
-                        <div v-html="job.description"></div>
-                    </q-card-section>
-                </q-card>
-            </q-expansion-item>
-
-            <q-item>
-                <q-item-label>Salary</q-item-label>
-                <q-space/>
-                <q-item-label>{{ job.pay_rate }}</q-item-label>
-            </q-item>
-
-            <q-item v-if="job.job_type">
-                <q-item-label>Job Type</q-item-label>
-                <q-space/>
-                <q-item-label>{{ jobType }}</q-item-label>
-            </q-item>
-
-            <q-item v-if="job.req_education">
-                <q-item-label>Requirements</q-item-label>
-                <q-space/>
-                <q-item-label>{{ educationRequirements }}</q-item-label>
-            </q-item>
-        </q-list>
-        <q-btn
-            unelevated
-            rounded
-            size="lg"
-            color="primary"
-            class="q-pt-sm my-btn-center"
-            label="APPLY NOW"
-            type="a"
-            target="_blank"
-            :href="job.url"
-        />
-
-        <google-map v-if="locations.length > 0" :pins="locations" class="map" />
-
-        <div class="row q-py-md">
-            <div v-if="walkingTime" class="icon-set">
-                <q-icon
-                    class="col"
-                    name="directions_walk"
-                    color="primary"
-                    size="26px"
-                />
-                <p class="col">{{ walkingTime }}</p>
-            </div>
-            <div v-if="bikingTime" class="icon-set">
-                <q-icon
-                    class="col"
-                    name="directions_bike"
-                    color="primary"
-                    size="26px"
-                />
-                <p class="col">{{ bikingTime }}</p>
-            </div>
-            <div v-if="transitTime" class="icon-set">
-                <q-icon
-                    class="col"
-                    name="directions_bus"
-                    color="primary"
-                    size="26px"
-                />
-                <p class="col">{{ transitTime }}</p>
-            </div>
-            <div v-if="drivingTime" class="icon-set">
-                <q-icon
-                    class="col"
-                    name="directions_car"
-                    color="primary"
-                    size="26px"
-                />
-                <p class="col">{{ drivingTime }}</p>
-            </div>
-        </div>
-
-        <q-card flat class="address-section text-primary">
-            <q-card-section>
+        <div v-if="job">
+            <p class="text-h5 text-weight-medium">{{ job.title }}</p>
+            <div class="row">
+                <p class="text-subtitle1">{{ job.employer.name }}</p>
+                <q-space />
                 <q-btn
-                    unelevated
-                    rounded
-                    class="q-px-xl q-py-sm"
-                    size="lg"
-                    color="primary"
-                    label="Map"
-                    type="a"
-                    :href="directionsURL"
-                    target="_blank"
-                />
-            </q-card-section>
-            <q-card-section
-                v-if="allLocations.length == 1"
-                class="q-py-none"
-            >
-                <q-item-label>{{ job.locations.data[0].street }}</q-item-label>
-                <q-item-label caption>{{ job.locations.data[0].city }}, {{ job.locations.data[0].state }} {{
-                    job.locations.data[0].zipcode }}
-                </q-item-label>
-            </q-card-section>
-            <q-card-section v-if="allLocations.length > 1" class="q-py-none">
-                <q-select
-                    :options="options"
-                    v-model="selectedLocation"
-                    @input="getDirections"
-                    emit-value
+                    round
+                    flat
+                    @click="toggleFavorite"
+                    class="text-primary q-pb-md"
+                    :icon="isFavorited ? 'favorite' : 'favorite_border'" />
+            </div>
+
+            <q-list bordered class="rounded-borders text-primary">
+                <q-expansion-item
+                    expand-separator
+                    label="Job Description"
                 >
-                </q-select>
-            </q-card-section>
-        </q-card>
+                    <q-card>
+                        <q-card-section>
+                            <div v-html="job.description"></div>
+                        </q-card-section>
+                    </q-card>
+                </q-expansion-item>
+
+                <q-item>
+                    <q-item-label>Salary</q-item-label>
+                    <q-space/>
+                    <q-item-label>{{ job.pay_rate }}</q-item-label>
+                </q-item>
+
+                <q-item v-if="job.job_type">
+                    <q-item-label>Job Type</q-item-label>
+                    <q-space/>
+                    <q-item-label>{{ jobType }}</q-item-label>
+                </q-item>
+
+                <q-item v-if="job.req_education">
+                    <q-item-label>Requirements</q-item-label>
+                    <q-space/>
+                    <q-item-label>{{ educationRequirements }}</q-item-label>
+                </q-item>
+            </q-list>
+            <q-btn
+                unelevated
+                rounded
+                size="lg"
+                color="primary"
+                class="my-btn-center"
+                label="APPLY NOW"
+                type="a"
+                target="_blank"
+                :href="job.url"
+            />
+
+            <google-map v-if="locations.length > 0" :pins="locations" class="map" />
+
+            <div class="row q-py-md">
+                <div v-if="walkingTime" class="col icon-set">
+                    <q-icon
+                        name="directions_walk"
+                        color="primary"
+                        size="26px"
+                    />
+                    <p>{{ walkingTime }}</p>
+                </div>
+                <div v-if="bikingTime" class="col icon-set">
+                    <q-icon
+                        name="directions_bike"
+                        color="primary"
+                        size="26px"
+                    />
+                    <p>{{ bikingTime }}</p>
+                </div>
+                <div v-if="transitTime" class="col icon-set">
+                    <q-icon
+                        name="directions_bus"
+                        color="primary"
+                        size="26px"
+                    />
+                    <p>{{ transitTime }}</p>
+                </div>
+                <div v-if="drivingTime" class="col icon-set">
+                    <q-icon
+                        name="directions_car"
+                        color="primary"
+                        size="26px"
+                    />
+                    <p>{{ drivingTime }}</p>
+                </div>
+            </div>
+
+            <q-card flat class="address-section text-primary">
+                <q-card-section>
+                    <q-btn
+                        unelevated
+                        rounded
+                        class="q-px-xl q-py-sm"
+                        size="lg"
+                        color="primary"
+                        label="Map"
+                        type="a"
+                        :href="directionsURL"
+                        target="_blank"
+                    />
+                </q-card-section>
+                <q-card-section
+                    v-if="allLocations.length == 1"
+                    class="q-py-none"
+                >
+                    <q-item-label>{{ job.locations.data[0].street }}</q-item-label>
+                    <q-item-label caption>{{ job.locations.data[0].city }}, {{ job.locations.data[0].state }} {{
+                        job.locations.data[0].zipcode }}
+                    </q-item-label>
+                </q-card-section>
+                <q-card-section v-if="allLocations.length > 1" class="q-py-none">
+                    <q-select
+                        :options="options"
+                        v-model="selectedLocation"
+                        @input="getDirections"
+                        emit-value
+                    >
+                    </q-select>
+                </q-card-section>
+            </q-card>
+        </div>
     </q-page>
 </template>
 
@@ -146,6 +152,7 @@
             GoogleMap,
         },
         data: () => ({
+            isLoading: true,
             job: null,
             drivingTime: null,
             walkingTime: null,
@@ -258,14 +265,10 @@
             },
         },
         created() {
-            this.$q.loading.show({
-                message: 'Loading job info',
-            });
             const { id } = this.$route.params;
 
             if (!id) {
                 this.$router.push('/404');
-                this.$q.loading.hide();
                 return;
             }
 
@@ -275,7 +278,7 @@
                 this.getTravelTimeFor('BICYCLING', 'bikingTime');
                 this.getTravelTimeFor('TRANSIT', 'transitTime');
                 this.getTravelTimeFor('WALKING', 'walkingTime');
-                this.$q.loading.hide();
+                this.isLoading = false;
 
                 // Create default directionsURL and selection
                 let base = 'https://www.google.com/maps/dir/?api=1&destination=';
@@ -308,10 +311,6 @@
 </script>
 
 <style scoped lang="scss">
-    .col p {
-        font-size: 20px;
-    }
-
     .my-btn-center {
         display: block;
         margin: 20px auto;
@@ -330,6 +329,6 @@
     .icon-set {
         flex-direction: column;
         text-align: center;
-        flex-grow: 1;
+        font-size: .9rem;
     }
 </style>

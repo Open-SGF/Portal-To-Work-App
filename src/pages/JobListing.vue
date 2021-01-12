@@ -13,7 +13,7 @@
                             square
                             outlined
                             :value="currentRefinement"
-                            @input="refine($event)"
+                            @input="search($event, refine)"
                             placeholder="Search"
                             class="search-bar"
                         >
@@ -72,6 +72,7 @@
     import algoliasearch from 'algoliasearch/lite';
     import JobCard from '../components/JobCard';
     import GoogleMap from '../components/GoogleMap';
+    import { debounce } from 'quasar';
 
     export default {
         components: {
@@ -88,6 +89,9 @@
                 process.env.ALGOLIA_SEARCH_KEY,
             ),
         }),
+        created() {
+            this.search = debounce(this.search, 300);
+        },
         computed: {
             ...mapState([
                 'coordinates',
@@ -145,7 +149,10 @@
             },
             milesToKilometers(miles) {
                 return miles * 1.60934;
-            }
+            },
+            search(searchTerm, refineCallback) {
+                refineCallback(searchTerm);
+            },
         },
     };
 </script>

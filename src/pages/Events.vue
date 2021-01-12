@@ -38,7 +38,7 @@
         width: 100%;
     }
 
-    .event-page {
-        background-color: lighten($primary, 50%);
-    }
+    // .event-page {
+    //     background-color: lighten($primary, 50%);
+    // }
 </style>

@@ -29,8 +29,10 @@
             },
         },
         async mounted() {
-            this.$options.google = await getGoogleMaps();
-            this.initMap();
+            try {
+                this.$options.google = await getGoogleMaps();
+                this.initMap();
+            } catch (e) {}
         },
         methods: {
             initMap() {

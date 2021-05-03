@@ -146,7 +146,6 @@
     import jobTypes from '../common/job-types';
     import educationLevels from '../common/education-levels';
 
-
     export default {
         components: {
             GoogleMap,
@@ -245,23 +244,26 @@
 
             async getTravelTimeFor(mode, dataName) {
                 if (!this.locations) return;
-                const google = await getGoogleMaps();
 
-                let directionsService = new google.maps.DirectionsService();
-                let request = {
-                    origin: new google.maps.LatLng(
-                        parseFloat(this.coordinates.latitude),
-                        parseFloat(this.coordinates.longitude),
-                    ),
-                    destination: new google.maps.LatLng(
-                        this.locations[0].lat,
-                        this.locations[0].lng,
-                    ),
-                    travelMode: mode,
-                };
-                directionsService.route(request, (result, status) => {
-                    this[dataName] = result.routes[0].legs[0].duration.text;
-                });
+                try {
+                    const google = await getGoogleMaps();
+    
+                    let directionsService = new google.maps.DirectionsService();
+                    let request = {
+                        origin: new google.maps.LatLng(
+                            parseFloat(this.coordinates.latitude),
+                            parseFloat(this.coordinates.longitude),
+                        ),
+                        destination: new google.maps.LatLng(
+                            this.locations[0].lat,
+                            this.locations[0].lng,
+                        ),
+                        travelMode: mode,
+                    };
+                    directionsService.route(request, (result, status) => {
+                        this[dataName] = result.routes[0].legs[0].duration.text;
+                    });
+                } catch (e) {}
             },
         },
         created() {
@@ -299,12 +301,9 @@
             }).catch((err) => {
                 this.$q.loading.hide();
 
-                if (err.response.status === 404) {
-                    this.$router.push('/404');
-                    return;
-                }
-
                 this.$q.notify('There was an error loading that job');
+                this.$router.replace('/404');
+                return;
             });
         },
     };

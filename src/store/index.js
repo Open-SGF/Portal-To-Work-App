@@ -94,11 +94,13 @@ export default function (/* { ssrContext } */) {
 
                 if (!state.coordinates.latitude || !state.coordinates.longitude) return;
 
-                await portalToWorkApi.post('/device/register', {
-                    playerId: state.userId,
-                    lat: state.coordinates.latitude,
-                    lng: state.coordinates.longitude,
-                });
+                try {
+                    await portalToWorkApi.post('/device/register', {
+                        playerId: state.userId,
+                        lat: state.coordinates.latitude,
+                        lng: state.coordinates.longitude,
+                    });
+                } catch (e) {}
             },
         },
 

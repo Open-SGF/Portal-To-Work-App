@@ -2,15 +2,24 @@ import { Platform } from 'quasar';
 import { loadScript } from './helpers';
 
 export async function setup() {
+
+    let userID = null;
+
     if (window === undefined) return;
 
     if (Platform.is.cordova || Platform.is.capacitor || window.location.hostname !== process.env.PRODUCTION_DOMAIN) {
         return;
     }
 
-    await loadScript('https://cdn.onesignal.com/sdks/OneSignalSDK.js');
+    try {
+        await loadScript('https://cdn.onesignal.com/sdks/OneSignalSDK.js');
+    } catch (e) {}
 
-    return await getOneSignalUserId();
+    try {
+        userID = await getOneSignalUserId();
+    } catch (e) {}
+
+    return userID;
 }
 
 function getOneSignalUserId() {

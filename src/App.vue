@@ -20,13 +20,17 @@
             });
 
             this.downloadAllEvents();
+
         },
         methods: {
             ...mapMutations(['initialiseStore', 'updateUserId']),
             ...mapActions(['registerDevice']),
             async downloadAllEvents() {
-                const res = await jobsApi.get('/event');
-                const events = res.data.data;
+                let events = []
+                try {
+                    const res = await jobsApi.get('/event');
+                    events = res.data.data;
+                } catch (e) {}
 
                 localStorage.setItem('events', JSON.stringify(events));
             },

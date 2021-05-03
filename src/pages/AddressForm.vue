@@ -156,6 +156,7 @@
                     message: 'Saving address',
                 });
 
+                // TODO: use trycatch?
                 const google = await getGoogleMaps();
 
                 if(google == null) {

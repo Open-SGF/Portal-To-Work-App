@@ -13,8 +13,11 @@ export async function getGoogleMaps() {
 
         const loader = new Loader(process.env.GOOGLE_MAPS_API_KEY, options);
 
-        const google = await loader.load();
+        try {
+            googleMapsReference = await loader.load();
+            // const google = await loader.load();
+            // googleMapsReference = google;
+        } catch (e) {}
 
-        googleMapsReference = google;
         return googleMapsReference;
 }
